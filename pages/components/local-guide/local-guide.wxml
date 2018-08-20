@@ -1,0 +1,5 @@
+<!--pages/components/local-guide/local-guide.wxml-->
+<view class="guide-item">
+  <image class="guide-item-img" src="{{src}}" mode="aspectFit"></image>
+  <text>{{ title }}</text>
+</view>

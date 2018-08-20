@@ -1,0 +1,177 @@
+<!--pages/home/home.wxml-->
+<wrapper url="{{url}}"></wrapper>
+  <view class="page-container {{mask_flag ? 'hide' : ''}}">
+    <view class="header">
+      <image class="big-size" src="../../images/menu.svg" bindtap='showMenu'></image>
+      <view class="header-item">
+        <view>{{ cur_info.location }}</view>
+        <view>{{ time }}</view>
+        <image wx:if="{{cur_info.location == city_weather_list[0].location}}" class="header-item-image" src="../../images/position.svg"></image>
+      </view>
+      <image class="header-item big-size" src="../../images/plus.svg" bindtap='addCity'></image>
+    </view>
+    <view class="weather">
+        <image class="weather-image big-size" src="{{cur_info.weather_code}}"></image>
+        {{ cur_info.weather }}
+    </view>
+    <view class="temperature">
+      <view class="temprature-bound">
+        <image class="mini-size" src="../../images/up.svg"></image>
+        {{cur_info.tmp_max}}°
+        <image class="mini-size" src="../../images/arrow-down.svg"></image>
+        {{cur_info.tmp_min}}°
+      </view>
+      <view class="temprature-now">{{ cur_info.tmp }}°</view>
+    </view>
+
+    <view class="forecast">
+      <view class="forecast-title">天气预报</view>
+      <picker class="forecast-picker" bindchange="bindPickerChange" value="{{index}}" range="{{picker_array}}">
+        <view>
+          {{picker_array[picker_index]}}
+          <image class="forecast-picker-image" src='../../images/down.svg'></image>
+        </view>
+      </picker>
+      <view class="forecast-hourly">
+        <block wx:if="{{picker_index == 0}}">
+          <view class="forecast-hourly-item" wx:for="{{cur_info.tmp_array}}" wx:key="index">
+            <view>{{item.time}}</view>
+            <view class="mini-image-wrapper">
+              <image class="middle-size" src="{{item.weather_code}}"></image>
+            </view>
+            <view>{{item.tmp}}°</view>
+          </view>
+        </block>
+        <block wx:else>
+          <view class="forecast-hourly-item" wx:for="{{cur_info.pop_array}}" wx:key="index">
+            <view>{{item.time}}</view>
+            <image class="pop-icon" src="{{item.pop_icon}}"></image>
+            <view>{{item.pop}}%</view>
+          </view>
+        </block>
+      </view>
+      <view class="forecast-daily" wx:for="{{cur_info.daily_array}}" wx:key="index">
+        <view class="forecast-daily-day">{{item.date}}</view>
+        <view class="middle-image-wrapper  forecast-daily-weather">
+          <image class="middle-size " src="{{item.weather_code}}"></image>
+        </view>
+        <view class="forecast-daily-pop">
+          <image class="pop-icon" src="{{item.pop_icon}}"></image>
+          <view class="forecast-daily-pop-text">{{item.pop}}%</view>
+        </view>
+        <view class="forecast-daily-tmpbound">
+          {{item.maxTmp}}° / {{item.minTmp}}°
+        </view>
+      </view>
+    </view>
+    <view class="detail">
+      <view class="forecast-title">详细信息</view>
+      <view class="detail-item">
+        <image class="detail-item-image" src="/images/sunrise.svg"></image>
+        <view class="detail-item-text">
+          <view>日出</view>
+          <view>{{cur_info.sunrise}}</view>
+        </view>
+      </view>
+      <view class="detail-item">
+        <image class="detail-item-image" src="/images/sundown.svg"></image>
+        <view class="detail-item-text">
+          <view>日落</view>
+          <view>{{cur_info.sundown}}</view>
+        </view>
+      </view>
+      <view class="detail-item">
+        <image class="detail-item-image" src="/images/hum.svg"></image>
+        <view class="detail-item-text">
+          <view>湿度</view>
+          <view>{{cur_info.hum}}</view>
+        </view>
+      </view>
+      <view class="detail-item">
+        <image class="detail-item-image" src="/images/uv.svg"></image>
+        <view class="detail-item-text">
+          <view>UV</view>
+          <view>{{cur_info.uv_index}}</view>
+        </view>
+      </view>
+      <view class="detail-summary"></view>
+    </view>
+    <view class="detail">
+      <view class="forecast-title">生活指数</view>
+      <view class="detail-item">
+        <image class="detail-item-image" src="/images/dress.svg"></image>
+        <view class="detail-item-text">
+          <view>穿衣</view>
+          <view>{{cur_info.dress}}</view>
+        </view>
+      </view>
+      <view class="detail-item">
+        <image class="detail-item-image" src="/images/sport.svg"></image>
+        <view class="detail-item-text">
+          <view>运动</view>
+          <view>{{cur_info.sport}}</view>
+        </view>
+      </view>
+      <view class="detail-item">
+        <image class="detail-item-image" src="/images/flu.svg"></image>
+        <view class="detail-item-text">
+          <view>流感</view>
+          <view>{{cur_info.flu}}</view>
+        </view>
+      </view>
+      <view class="detail-item">
+        <image class="detail-item-image" src="/images/air.svg"></image>
+        <view class="detail-item-text">
+          <view>空气</view>
+          <view>{{cur_info.air}}</view>
+        </view>
+      </view>
+      <view class="detail-summary"></view>
+    </view>
+  </view>
+
+  <view wx:if="{{add_flag}}" class="add">
+    <image class="add-item add-image rorate-90" src="/images/down.svg" bindtap="cancelMask"></image>
+    <input class="add-item add-input" type="text" placeholder='搜索城市' bindinput='searchCity' focus='true'></input>
+    <image class="add-item add-image" src="/images/position01.svg" bindtap="getLocatedWeather"></image>
+  </view>
+
+  <view wx:if="{{show_flag}}" class="show" bindtap="addCity2DB">
+    <view class="show-city">{{search_location}}</view>
+    <view class="show-detail"> {{search_city}}市 {{search_province}}省 中国</view>
+  </view>
+
+  <view wx:if="{{menu_flag}}" class="menu">
+    <view class="menu-header">
+      <view class="menu-header-item">
+        <image wx:if="{{!show_more_flag}}" class="middle-size  rorate-90" src="../../images/down.svg" bindtap='cancelMask'></image>
+        <image wx:else class="middle-size" src="{{delete_all_flag ? '/images/chosen.svg' : '/images/not-chosen.svg'}}" bindtap="chooseAll"></image>
+        <text class="menu-header-text">{{show_more_flag ? '全选' : '地点'}}</text>
+      </view>
+      <view>
+        <text wx:if="{{show_more_flag&&delete_flag}}" bindtap='deleteCity'>删除</text>
+        <text wx:elif="{{show_more_flag&&!delete_flag}}" bindtap='cancelShowMore'>取消</text>
+        <image wx:else class="header-item middle-size" src="../../images/more.svg" bindtap='showMore'></image>
+      </view>
+    </view>
+    <view wx:for="{{city_weather_list}}" class="menu-item" bindtap="chooseCity" wx:key="{{index}}" data-index="{{index}}">
+      <view wx:if="{{show_more_flag}}" class="menu-item-radio {{index === 0 ? 'hide' : ''}}" catchtap='chooseRadio' data-index="{{index}}">
+        <image class="middle-size" src="{{radio_list[index - 1] ? '/images/chosen.svg' : '/images/not-chosen.svg'}}"></image>
+      </view>
+      <view>
+        <view class="menu-item-city">
+          <image wx:if="{{index === 0}}" class="mini-size" src="/images/position01.svg"></image> {{item.location}}</view>
+        <view class="menu-item-detail"> {{item.city}}市 {{item.area}}省 中国</view>
+        <view class="menu-item-detail"> {{time}}</view>
+      </view>
+
+      <view class="menu-item-weather">
+        <view>
+          <image class="middle-size menu-item-image" src="/images/sunny.svg"></image> {{item.tmp}}°</view>
+        <view>{{item.tmp_min}}°/{{item.tmp_max}}°</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{mask_flag}}" class="mask" bindtap='cancelMask'></view>
+  

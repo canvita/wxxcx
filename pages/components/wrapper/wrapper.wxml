@@ -1,0 +1,4 @@
+<!--pages/components/wrapper/wrapper.wxml-->
+<view class="wrapper" style="{{style}}">
+<slot></slot>
+</view>

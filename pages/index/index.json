@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "guide-item": "../components/local-guide/local-guide"
+  }
+}

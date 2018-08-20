@@ -1,0 +1,49 @@
+<!--index.wxml-->
+<view class='container'>
+  <view class="header" style="background-image: url(https://lg-61mrqwoc-1257221457.cos.ap-shanghai.myqcloud.com/yezi.jpg);background-size: 100%;">
+    <view class="search-bar">
+      <icon type="waiting" size='20' color="#fff"></icon>
+      <input class="search-input" type="text" placeholder="搜索你想去的地方">
+      </input>
+      <icon type="search" color='#fff' bindtap='chooseLoca'></icon>
+    </view>
+    <view class="travel-destination">
+      <view class="province">{{ province }}</view>
+      <view class="destination">{{ city }}</view>
+    </view>
+    <view class='photos-and-weather'>
+      <view class="photos" bindtap='choosePhotos'>
+      50张照片<image src="../../images/photo.svg"></image>
+    </view>
+    <view class="weather">
+      {{ temperature }}℃ {{ weather }}  <image src="../../images/sunny.svg"></image>
+    </view>
+    </view>
+    
+  </view>
+  <view class="local-guide">
+   <guide-item src="https://lg-61mrqwoc-1257221457.cos.ap-shanghai.myqcloud.com/view.png" title="景点"></guide-item>
+   <guide-item src="https://lg-61mrqwoc-1257221457.cos.ap-shanghai.myqcloud.com/hetel.png" title="酒店"></guide-item>
+   <guide-item src="https://lg-61mrqwoc-1257221457.cos.ap-shanghai.myqcloud.com/food.png" title="美食"></guide-item>
+   <guide-item src="https://lg-61mrqwoc-1257221457.cos.ap-shanghai.myqcloud.com/guide.png" title="游记"></guide-item>
+   <guide-item src="https://lg-61mrqwoc-1257221457.cos.ap-shanghai.myqcloud.com/qanda.png" title="问答"></guide-item>
+   <guide-item src="https://lg-61mrqwoc-1257221457.cos.ap-shanghai.myqcloud.com/free-travel.png" title="自由行"></guide-item>
+   <guide-item src="https://lg-61mrqwoc-1257221457.cos.ap-shanghai.myqcloud.com/dingzhi.png" title="定制旅游"></guide-item>
+   <guide-item src="https://lg-61mrqwoc-1257221457.cos.ap-shanghai.myqcloud.com/localamuse.png" title="当地游玩"></guide-item>
+   <guide-item src="https://lg-61mrqwoc-1257221457.cos.ap-shanghai.myqcloud.com/amuse.png" title="游玩"></guide-item>
+   
+  </view>
+  <view class="city-map">
+    <view style="padding: 10px; color: #333;">城市地图</view>
+   <map 
+      id='mymap' 
+      longitude='{{longitude}}' 
+      latitude='{{latitude}}' 
+      scale='16' 
+      style="width: 100%; height: 150px;"
+      markers='{{markers}}'
+      show-location
+    ></map>
+  </view>
+</view>
+

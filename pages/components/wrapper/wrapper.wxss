@@ -1,0 +1,6 @@
+/* pages/components/wrapper/wrapper.wxss */
+.wrapper {
+  position: fixed;
+  z-index: -1;
+  background-position: top left;
+}
